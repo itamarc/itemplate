@@ -1,0 +1,62 @@
+ITemplate Java - Fill in text templates with variable content
+(a.k.a. org.gjt.itemplate)
+
+1. INTRODUCTION
+
+This  library  was created  by  Itamar  Almeida  de Carvalho  and  was
+inspired by Perl Text::Template module (see http://www.cpan.org).
+
+The intention was  to provide a mean to work  confortably with HTML in
+Servlets, having in separate files the  HTML design and the Java code.
+I have started this in the beginning of my Java learning.  Probably it
+can be optimized.
+
+I  think  that reading  my  Makefile,  the  JavaDoc and  the  provided
+example  you  can  understand  how  it works.  Any  doubt  send  me  a
+message at  itamar@gjt.org and I will  try to explain and  improve the
+documentation. I think the example could be more detailed.
+
+My first language is not english, so  please if you find any errors in
+my text, send me a message.
+
+2. FUTURE
+
+I have planned  an "advanced" mode, that is not  implemented yet. This
+mode will at first let you use  "if" and "else" to make a substitution
+or another in any point. It is  useful, but with a little work you can
+do almost everything  without it, testing the conditions  in your Java
+code and setting or not the values of the keys to be substituted.
+
+Maybe more constructors can be made for convenience.
+
+I think the messages in the  exceptions can be more detailed (like the
+TokensDontMatchException  that  could  say  the line  of  the  opening
+token).
+
+If you have  any contributions or want  to help me, send  a message to
+itamar@gjt.org
+
+3. LICENSE
+
+Copyright (C) 2001 Itamar Almeida de Carvalho <itamar@gjt.org>
+
+This library is  free software; you can redistribute  it and/or modify
+it  under the  terms  of the  GNU Library  General  Public License  as
+published by  the Free  Software Foundation; either  version 2  of the
+License, or (at your option) any later version.
+
+This  library is  distributed  in the  hope that  it  will be  useful,
+but  WITHOUT  ANY  WARRANTY;  without even  the  implied  warranty  of
+MERCHANTABILITY  or FITNESS  FOR  A PARTICULAR  PURPOSE.  See the  GNU
+Library General Public License for more details.
+
+You should  have received  a copy  of the  GNU Library  General Public
+License along  with this library; if  not, write to the  Free Software
+Foundation, Inc., 59 Temple Place  - Suite 330, Boston, MA 02111-1307,
+USA.
+
+See the COPYING file located in  the "doc" directory of the archive of
+this library for complete text of license.
+
+--- End of README file ---
+
