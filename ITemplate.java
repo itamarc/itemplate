@@ -31,7 +31,7 @@ import java.util.*;
  * Note: Advanced mode is planned, but not yet implemented.
  *
  * @author Itamar Almeida de Carvalho
- * @version 0.1 beta
+ * @version 1.0
  */
 public class ITemplate {
 	/* Class attributes */

@@ -25,7 +25,7 @@ package org.gjt.itemplate;
 
 /** Class to store template pieces.
  * @author Itamar Almeida de Carvalho
- * @version 0.1 alpha
+ * @version 1.0
  * @see ITemplate
  */
 public class ITemplatePiece {
