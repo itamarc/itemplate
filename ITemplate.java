@@ -45,6 +45,8 @@ public class ITemplate {
 	private boolean debug = false;
 	
 	/* Constructors */
+        /** @param texto Path to the file containing the template or the text of the template.
+         * @param tipo Valid types: path, string. */
 	public ITemplate (String texto, String tipo) 
 		throws ParameterException,
 			EmptyTemplateException,
