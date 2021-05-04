@@ -1,0 +1,10 @@
+{
+    "maven.view": "hierarchical",
+    "java.project.sourcePaths": [
+        "src",
+        "test",
+        "example"
+    ],
+    "java.project.outputPath": "bin",
+    "java.configuration.updateBuildConfiguration": "interactive"
+}
