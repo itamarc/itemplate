@@ -29,35 +29,35 @@ package org.gjt.itemplate;
  * @see ITemplate
  */
 public class ITemplatePiece {
-	private String texto;
-	/** 1=Text, 2=Substitute, 3=Advanced
+	private String text;
+	/** 1=Text, 2=Key, 3=Advanced
 	 */
-	private int tipo;
-	public ITemplatePiece (String texto, int tipo) throws ParameterException {
-		this.texto = texto;
-		this.tipo = tipo;
-		if (tipo < 1 || tipo > 3) {
-			throw new ParameterException("Parameter 'tipo' must have values between 1 e 3.");
+	private int type;
+	public ITemplatePiece (String text, int type) throws ParameterException {
+		this.text = text;
+		this.type = type;
+		if (type < 1 || type > 3) {
+			throw new ParameterException("Parameter 'type' must have values between 1 and 3.");
 		}
 	}
 	public String getTexto() {
-		return texto;
+		return text;
 	}
 	public int getTipo() {
-		return tipo;
+		return type;
 	}
 	public String toString() {
-		String tipostr = "";
-		if (tipo == 1) {
-			tipostr="text";
-		} else if (tipo == 2) {
-			tipostr="substitute";
-		} else if (tipo == 3) {
-			tipostr="advanced";
+		String typestr = "";
+		if (type == 1) {
+			typestr="text";
+		} else if (type == 2) {
+			typestr="key";
+		} else if (type == 3) {
+			typestr="advanced";
 		} else {
-			tipostr="unknown";
+			typestr="unknown";
 		}
-		return "Type "+tipo+" ("+tipostr+") - Text:\n"+texto;
+		return "Type "+type+" ("+typestr+") - Text:\n"+text;
 	}
 }
 

@@ -1,7 +1,7 @@
 /*
  * ITemplate - fill in text templates with variable content.
  *
- * Copyright (C) 2001 Itamar Almeida de Carvalho <itamar@gjt.org>
+ * Copyright (C) 2001 Itamar Almeida de Carvalho <itamarc@gmail.com>
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -23,7 +23,6 @@
  */
 package org.gjt.itemplate;
 
-import org.gjt.itemplate.*;
 import java.io.*;
 import java.util.*;
 
@@ -39,7 +38,7 @@ public class ITemplate {
 	private static String closeTkn = "#]";
 	/* Instance attributes */
 	private boolean advanced = false;
-	private Vector parsed = new Vector();
+	private Vector<ITemplatePiece> parsed = new Vector<ITemplatePiece>();
 
 	// SET TO "true" TO PRODUCE DEBUG MSGS (DON'T COMMIT WITH debug=true !)
 	private boolean debug = false;
@@ -98,11 +97,11 @@ public class ITemplate {
 	}
 	private void parse(String tmpl) throws TokensDontMatchException {
 		boolean open=false;
-		int type=1; // 1-texto 2-subst. 3-avancado
+		int type=1; // 1-text 2-key 3-advanced
 		int subst = (advanced ? 3 : 2);
 		StringBuffer str = new StringBuffer();
 		try {
-			// Preenche Vector parsed
+			// Fills the 'parsed' Vector
 			for (int i=0; i<tmpl.length(); i++) {
 				char c = tmpl.charAt(i);
 				if (!open && c == openTkn.charAt(0)) {
@@ -128,6 +127,14 @@ public class ITemplate {
 						open = false;
 					} else {
 						str.append(c);
+					}
+				} else if (open && c == openTkn.charAt(0)) {
+					if (tmpl.substring(i,i+openTkn.length()).compareTo(openTkn) == 0) {
+						throw new TokensDontMatchException("Two opening tokens without a closing one.");
+					}
+				} else if (!open && c == closeTkn.charAt(0)) {
+					if (tmpl.substring(i,i+closeTkn.length()).compareTo(closeTkn) == 0) {
+						throw new TokensDontMatchException("Closing token without an opening one.");
 					}
 				} else {
 					str.append(c);
@@ -172,7 +179,7 @@ public class ITemplate {
 	}
 	/** Fill in the template making substitutions.
 	 */
-	public String fill(Hashtable h) {
+	public String fill(Hashtable<String, String> h) {
 		StringBuffer s = new StringBuffer();
 		for (int i=0; i<parsed.size(); i++) {
 			ITemplatePiece p = (ITemplatePiece)parsed.get(i);
