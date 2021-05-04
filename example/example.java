@@ -9,9 +9,9 @@ public class example {
 			ITemplate t = new ITemplate("example.html","path");
 			// Define the substitutions that will be made
 			Hashtable h = new Hashtable();
-			h.put("chave1","blabla 1");
-			h.put("chave2","blabla 2");
-			h.put("chave3","blabla 3");
+			h.put("key1","alpha 1");
+			h.put("key2","beta 2");
+			h.put("key3","charlie 3");
 			// Fill in the template
 			String tmpl = t.fill(h);
 			// Print the result

@@ -35,8 +35,8 @@ import java.util.*;
  */
 public class ITemplate {
 	/* Class attributes */
-	private static String abre = "[#";
-	private static String fecha = "#]";
+	private static String openTkn = "[#";
+	private static String closeTkn = "#]";
 	/* Instance attributes */
 	private boolean advanced = false;
 	private Vector parsed = new Vector();
@@ -45,23 +45,23 @@ public class ITemplate {
 	private boolean debug = false;
 	
 	/* Constructors */
-        /** @param texto Path to the file containing the template or the text of the template.
-         * @param tipo Valid types: path, string. */
-	public ITemplate (String texto, String tipo) 
+    /** @param text Path to the file containing the template or the text of the template.
+      * @param type Valid types: path, string. */
+	public ITemplate (String text, String type) 
 		throws ParameterException,
 			EmptyTemplateException,
 			TokensDontMatchException {
 		String tmpl="";
-		if (tipo.equalsIgnoreCase("path")) {
-			File arq = new File(texto);
-			tmpl = leArquivo(arq);
+		if (type.equalsIgnoreCase("path")) {
+			File arq = new File(text);
+			tmpl = readFile(arq);
 			if (debug) {
 				System.out.println("TEMPLATE:\n"+tmpl);
 			}
-		} else if (tipo.equalsIgnoreCase("string")) {
-			tmpl = new String(texto);
+		} else if (type.equalsIgnoreCase("string")) {
+			tmpl = new String(text);
 		} else {
-			throw new ParameterException("Unknown type: "+tipo);
+			throw new ParameterException("Unknown type: "+type);
 		}
 		if (tmpl.length() == 0) {
 			throw new EmptyTemplateException();
@@ -69,15 +69,10 @@ public class ITemplate {
 			parse(tmpl);
 		}
 	}
-	/* I don't know if it is a good constructor...
-	public ITemplate (String path, boolean advanced) {
-		System.out.println("Construtor ainda nao implementado.");
-	}
-	*/
-	public ITemplate (File arq) 
+	public ITemplate (File file) 
 		throws EmptyTemplateException,TokensDontMatchException {
 		String tmpl="";
-		tmpl = leArquivo(arq);
+		tmpl = readFile(file);
 		if (debug) {
 			System.out.println("TEMPLATE:\n"+tmpl);
 		}
@@ -87,11 +82,11 @@ public class ITemplate {
 			parse(tmpl);
 		}
 	}
-	public ITemplate (File arq, boolean advanced) 
+	public ITemplate (File file, boolean advanced) 
 		throws EmptyTemplateException,TokensDontMatchException {
 		this.advanced = advanced;
 		String tmpl="";
-		tmpl = leArquivo(arq);
+		tmpl = readFile(file);
 		if (debug) {
 			System.out.println("TEMPLATE:\n"+tmpl);
 		}
@@ -101,35 +96,35 @@ public class ITemplate {
 			parse(tmpl);
 		}
 	}
-	private void parse (String tmpl) throws TokensDontMatchException {
+	private void parse(String tmpl) throws TokensDontMatchException {
 		boolean open=false;
-		int tipo=1; // 1-texto 2-subst. 3-avancado
+		int type=1; // 1-texto 2-subst. 3-avancado
 		int subst = (advanced ? 3 : 2);
 		StringBuffer str = new StringBuffer();
 		try {
 			// Preenche Vector parsed
 			for (int i=0; i<tmpl.length(); i++) {
 				char c = tmpl.charAt(i);
-				if (!open && c == abre.charAt(0)) {
-					if (tmpl.substring(i,i+abre.length()).compareTo(abre) == 0) {
+				if (!open && c == openTkn.charAt(0)) {
+					if (tmpl.substring(i,i+openTkn.length()).compareTo(openTkn) == 0) {
 						if (str.length() > 0) {
-							tipo = (open ? subst : 1);
-							parsed.add(new ITemplatePiece(str.toString(),tipo));
+							type = (open ? subst : 1);
+							parsed.add(new ITemplatePiece(str.toString(),type));
 							str = new StringBuffer();
 						}
 						open = true;
-						i += abre.length()-1;
+						i += openTkn.length()-1;
 					} else {
 						str.append(c);
 					}
-				} else if (open && c == fecha.charAt(0)) {
-					if (tmpl.substring(i,i+fecha.length()).compareTo(fecha) == 0) {
+				} else if (open && c == closeTkn.charAt(0)) {
+					if (tmpl.substring(i,i+closeTkn.length()).compareTo(closeTkn) == 0) {
 						if (str.length() > 0) {
-							tipo = (open ? subst : 1);
-							parsed.add(new ITemplatePiece(str.toString(),tipo));
+							type = (open ? subst : 1);
+							parsed.add(new ITemplatePiece(str.toString(),type));
 							str = new StringBuffer();
 						}
-						i += abre.length()-1;
+						i += openTkn.length()-1;
 						open = false;
 					} else {
 						str.append(c);
@@ -142,8 +137,8 @@ public class ITemplate {
 				if (open) {
 					throw new TokensDontMatchException();
 				} else {
-					tipo = (open ? subst : 1);
-					parsed.add(new ITemplatePiece(str.toString(),tipo));
+					type = (open ? subst : 1);
+					parsed.add(new ITemplatePiece(str.toString(),type));
 				}
 			}
 		} catch (ParameterException e) {
@@ -159,17 +154,17 @@ public class ITemplate {
 			System.out.println("##### PIECE "+i+":\n"+s+"\n");
 		}
 	}
-	private String leArquivo (File arq) {
+	private String readFile(File file) {
 		int c;
 		StringBuffer tmpl = new StringBuffer();
 		try {
-			FileReader in = new FileReader(arq);
+			FileReader in = new FileReader(file);
 			while ((c = in.read()) != -1) {
 				tmpl.append((char)c);
 			}
 			in.close();
 		} catch (FileNotFoundException e) {
-			System.out.println("File not found: "+arq.getAbsolutePath()+" ("+e.getMessage()+")");
+			System.out.println("File not found: "+file.getAbsolutePath()+" ("+e.getMessage()+")");
 		} catch (IOException e) {
 			System.out.println("I/O error: "+e.getMessage());
 		}
@@ -203,8 +198,8 @@ public class ITemplate {
 	 * The default values are &quot;[#&quot; and &quot;#]&quot;.
 	 */
 	public static void setTokens (String open, String close) {
-		abre = open;
-		fecha = close;
+		openTkn = open;
+		closeTkn = close;
 	}
 }
 
@@ -222,19 +217,4 @@ On fill in:
 - For each substitutle piece, do the change
 - Mount the final text
 
----------------
-
-Algoritmo geral:
-
-Ao criar:
-- Obter template
-- Quebrar template em pedaços
-- Guardar pedaços em vetor
-
-Ao preencher:
-- Obter hash de substituição
-- Para cada pedaço substituível, efetuar substituição
-- Montar texto final
-
 */
-
