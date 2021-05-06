@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 public class ITemplateTest {
     @Test
     void simpleStringTemplateTest() throws ParameterException, EmptyTemplateException, TokensDontMatchException {
-        String template = "First [#test1 #] third [# test2#] fifth [# test3 #] [#test4#]";
         String result = "First second third fourth fifth sixth seventh";
         HashMap<String, String> h = new HashMap<String, String>();
         h.put("test1","second");
@@ -44,5 +43,24 @@ public class ITemplateTest {
         Exception exception = assertThrows(TokensDontMatchException.class, () ->
             new ITemplate(template,"string"));
         assertEquals("Closing token without an opening one.", exception.getMessage());
-       }
+    }
+    /**
+     * For a key not found in the HashMap, it should be changed for an empty string.
+     * @throws ParameterException
+     * @throws EmptyTemplateException
+     * @throws TokensDontMatchException
+     */
+    @Test
+    void inexistentKeyTest() throws ParameterException, EmptyTemplateException, TokensDontMatchException {
+        String template = "First [#test1 #] third [# test2#] fifth [# test3 #] [#test4#] [#test5#]";
+        String expectedResult = "First second third fourth fifth sixth seventh ";
+        ITemplate tmpl = new ITemplate(template,"string");
+        HashMap<String, String> h = new HashMap<String, String>();
+        h.put("test1","second");
+        h.put("test2","fourth");
+        h.put("test3","sixth");
+        h.put("test4","seventh");
+        String result = tmpl.fill(h);
+        assertEquals(expectedResult, result);
+    }
 }

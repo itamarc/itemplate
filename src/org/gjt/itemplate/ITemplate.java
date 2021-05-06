@@ -185,12 +185,12 @@ public class ITemplate {
 	 */
 	public String fill(HashMap<String, String> h) {
 		StringBuffer s = new StringBuffer();
-		for (int i=0; i<parsed.size(); i++) {
-			ITemplatePiece p = (ITemplatePiece)parsed.get(i);
-			if (p.getTipo() == 1) {
-				s.append(p.getTexto());
-			} else if (p.getTipo() == 2) {
-				s.append((String)h.get(p.getTexto().trim()));
+		for (ITemplatePiece p : parsed) {
+			if (p.getType() == 1) { // text
+				s.append(p.getText());
+			} else if (p.getType() == 2) { // key
+				String key = p.getText().trim();
+				s.append((h.containsKey(key)) ? (String)h.get(key) : "");
 			}
 		}
 		return s.toString();

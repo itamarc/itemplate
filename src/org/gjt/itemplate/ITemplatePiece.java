@@ -40,10 +40,10 @@ public class ITemplatePiece {
 			throw new ParameterException("Parameter 'type' must have values between 1 and 3.");
 		}
 	}
-	public String getTexto() {
+	public String getText() {
 		return text;
 	}
-	public int getTipo() {
+	public int getType() {
 		return type;
 	}
 	public String toString() {
