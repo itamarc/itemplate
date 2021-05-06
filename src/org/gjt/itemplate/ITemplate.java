@@ -23,8 +23,12 @@
  */
 package org.gjt.itemplate;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /** Class to fill in text templates with variable content.<br>
  * Note: Advanced mode is planned, but not yet implemented.
@@ -38,7 +42,7 @@ public class ITemplate {
 	private static String closeTkn = "#]";
 	/* Instance attributes */
 	private boolean advanced = false;
-	private Vector<ITemplatePiece> parsed = new Vector<ITemplatePiece>();
+	private ArrayList<ITemplatePiece> parsed = new ArrayList<ITemplatePiece>();
 
 	// SET TO "true" TO PRODUCE DEBUG MSGS (DON'T COMMIT WITH debug=true !)
 	private boolean debug = false;
@@ -179,7 +183,7 @@ public class ITemplate {
 	}
 	/** Fill in the template making substitutions.
 	 */
-	public String fill(Hashtable<String, String> h) {
+	public String fill(HashMap<String, String> h) {
 		StringBuffer s = new StringBuffer();
 		for (int i=0; i<parsed.size(); i++) {
 			ITemplatePiece p = (ITemplatePiece)parsed.get(i);

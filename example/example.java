@@ -1,5 +1,5 @@
 import org.gjt.itemplate.*;
-import java.util.*;
+import java.util.HashMap;
 
 public class example {
 	public static void main (String[] args) {
@@ -7,7 +7,7 @@ public class example {
 			// Use the file example.txt as the template source
 			ITemplate t = new ITemplate("example.html","path");
 			// Define the substitutions that will be made
-			Hashtable<String, String> h = new Hashtable<String, String>();
+			HashMap<String, String> h = new HashMap<String, String>();
 			h.put("key1","alpha 1");
 			h.put("key2","beta 2");
 			h.put("key3","charlie 3");
