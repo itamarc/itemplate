@@ -1,7 +1,7 @@
 /*
  * ITemplate - fill in text templates with variable content.
  *
- * Copyright (C) 2001 Itamar Almeida de Carvalho <itamar@gjt.org>
+ * Copyright (C) 2001 Itamar Carvalho <itamarc@gmail.com>s
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
