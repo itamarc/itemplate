@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 public class ITemplateTest {
     @Test
     void simpleStringTemplateTest() throws ParameterException, EmptyTemplateException, TokensDontMatchException {
+        String template = "First [#test1#] third [# test2#] fifth [# test3 #] [#test4#]";
         String result = "First second third fourth fifth sixth seventh";
         HashMap<String, String> h = new HashMap<String, String>();
         h.put("test1","second");
