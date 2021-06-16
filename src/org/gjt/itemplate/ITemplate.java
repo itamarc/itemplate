@@ -30,23 +30,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/** Class to fill in text templates with variable content.<br>
- * Note: Advanced mode is planned, but not yet implemented.
+/** Class to fill in text templates with variable content.
  *
  * @author Itamar Almeida de Carvalho
  * @version 1.0
  */
 public class ITemplate {
+	/* Constants */
+	public final static int TEXT = 1;
+	public final static int KEY = 2;
 	/* Class attributes */
 	private static String openTkn = "[#";
 	private static String closeTkn = "#]";
 	/* Instance attributes */
-	private boolean advanced = false;
 	private ArrayList<ITemplatePiece> parsed = new ArrayList<ITemplatePiece>();
 
-	// SET TO "true" TO PRODUCE DEBUG MSGS (DON'T COMMIT WITH debug=true !)
-	private boolean debug = false;
-	
 	/* Constructors */
     /** @param text Path to the file containing the template or the text of the template.
       * @param type Valid types: path, string. */
@@ -58,9 +56,6 @@ public class ITemplate {
 		if (type.equalsIgnoreCase("path")) {
 			File arq = new File(text);
 			tmpl = readFile(arq);
-			if (debug) {
-				System.out.println("TEMPLATE:\n"+tmpl);
-			}
 		} else if (type.equalsIgnoreCase("string")) {
 			tmpl = new String(text);
 		} else {
@@ -76,23 +71,6 @@ public class ITemplate {
 		throws EmptyTemplateException,TokensDontMatchException {
 		String tmpl="";
 		tmpl = readFile(file);
-		if (debug) {
-			System.out.println("TEMPLATE:\n"+tmpl);
-		}
-		if (tmpl.length() == 0) {
-			throw new EmptyTemplateException();
-		} else {
-			parse(tmpl);
-		}
-	}
-	public ITemplate (File file, boolean advanced) 
-		throws EmptyTemplateException,TokensDontMatchException {
-		this.advanced = advanced;
-		String tmpl="";
-		tmpl = readFile(file);
-		if (debug) {
-			System.out.println("TEMPLATE:\n"+tmpl);
-		}
 		if (tmpl.length() == 0) {
 			throw new EmptyTemplateException();
 		} else {
@@ -101,35 +79,38 @@ public class ITemplate {
 	}
 	private void parse(String tmpl) throws TokensDontMatchException {
 		boolean open=false;
-		int type=1; // 1-text 2-key 3-advanced
-		int subst = (advanced ? 3 : 2);
+		int type=TEXT; // 1-text 2-key
 		StringBuffer str = new StringBuffer();
 		try {
 			// Fills the 'parsed' Vector
 			for (int i=0; i<tmpl.length(); i++) {
 				char c = tmpl.charAt(i);
+				// If the char is the first in the open token and it was not found yet (!open)
 				if (!open && c == openTkn.charAt(0)) {
+					// Check if the token is complete in the current position
 					if (tmpl.substring(i,i+openTkn.length()).compareTo(openTkn) == 0) {
 						if (str.length() > 0) {
-							type = (open ? subst : 1);
+							type = (open ? KEY : TEXT);
 							parsed.add(new ITemplatePiece(str.toString(),type));
 							str = new StringBuffer();
 						}
 						open = true;
 						i += openTkn.length()-1;
-					} else {
+					} else { // If fails to find the full token, just append the char
 						str.append(c);
 					}
+				// If the open token has already been found and the current
+				// char is the first in the close token
 				} else if (open && c == closeTkn.charAt(0)) {
 					if (tmpl.substring(i,i+closeTkn.length()).compareTo(closeTkn) == 0) {
 						if (str.length() > 0) {
-							type = (open ? subst : 1);
+							type = (open ? KEY : TEXT);
 							parsed.add(new ITemplatePiece(str.toString(),type));
 							str = new StringBuffer();
 						}
 						i += openTkn.length()-1;
 						open = false;
-					} else {
+					} else { // If fails to find the full token, just append the char
 						str.append(c);
 					}
 				} else if (open && c == openTkn.charAt(0)) {
@@ -148,21 +129,11 @@ public class ITemplate {
 				if (open) {
 					throw new TokensDontMatchException();
 				} else {
-					type = (open ? subst : 1);
-					parsed.add(new ITemplatePiece(str.toString(),type));
+					parsed.add(new ITemplatePiece(str.toString(),TEXT));
 				}
 			}
 		} catch (ParameterException e) {
 			System.out.println("Parameter error: "+e.getMessage());
-		}
-		if (debug) {
-			printParsed();
-		}
-	}
-	private void printParsed() {
-		for (int i=0; i<parsed.size(); i++) {
-			String s = ((ITemplatePiece)parsed.get(i)).toString();
-			System.out.println("##### PIECE "+i+":\n"+s+"\n");
 		}
 	}
 	private String readFile(File file) {
@@ -194,16 +165,6 @@ public class ITemplate {
 			}
 		}
 		return s.toString();
-	}
-	/** Ativate the advanced mode.
-	 */
-	public void setAdvancedMode() {
-		advanced = true;
-	}
-	/** Turn the advanced mode off.
-	 */
-	public void unsetAdvancedMode() {
-		advanced = false;
 	}
 	/** Define the tokens that opens and closes the pieces to be substituted.<br>
 	 * The default values are &quot;[#&quot; and &quot;#]&quot;.

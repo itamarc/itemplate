@@ -64,4 +64,32 @@ public class ITemplateTest {
         String result = tmpl.fill(h);
         assertEquals(expectedResult, result);
     }
+    /**
+     * 
+     * @throws EmptyTemplateException
+     * @throws TokensDontMatchException
+     */
+    @Test
+    void unknownTypeTest() throws EmptyTemplateException, TokensDontMatchException {
+        assertThrows(ParameterException.class, () -> {
+            new ITemplate("text", "type"); // supported types are "string" and "path"
+        });
+    }
+    /**
+     * 
+     * @throws ParameterException
+     * @throws TokensDontMatchException
+     */
+    @Test
+    void emptyTemplateTest() throws ParameterException, TokensDontMatchException {
+        assertThrows(EmptyTemplateException.class, () -> {
+            new ITemplate("", "string");
+        });
+    }
+    @Test
+    // Just to increase test coverage
+    void setTokensTest() {
+        ITemplate.setTokens("{open", "}close");
+        ITemplate.setTokens("[#]", "#]");
+    }
 }
