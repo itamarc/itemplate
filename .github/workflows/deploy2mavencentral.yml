@@ -18,8 +18,18 @@ jobs:
           server-id: ossrh
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
-      - name: Publish to the Maven Central Repository
-        run: mvn --batch-mode deploy
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+      - name: Import GPG Owner Trust
+        run: echo ${{secrets.GPG_OWNERTRUST}} | base64 --decode | gpg --import-ownertrust
+      - name: Import GPG key
+        run: echo ${{secrets.GPG_SECRET_KEYS}} | base64 --decode | gpg --import --no-tty --batch --yes
+      - name: Clean settings.xml
+        run: rm -rf ~/.m2/settings.xml
+      - name: Create settings.xml
+        uses: s4u/maven-settings-action@v1
+        with:
+          servers: '[{"id": "ossrh", "username": "${{secrets.OSSRH_USERNAME}}", "password": "${{secrets.OSSRH_TOKEN}}"}]'
+      - name: Deploy a new version to central
+        run: ./mvnw clean deploy -B -Prelease -Dgpg.keyname=${{secrets.GPG_KEYNAME}} -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}}
