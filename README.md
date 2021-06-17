@@ -19,3 +19,11 @@ To use this library in a Maven project, you can use this code in your `pom.xml`:
         <artifactId>itemplate</artifactId>
         <version>1.1</version>
     </dependency>
+
+## Unit Tests
+
+To generate a report of code coverage of the unit tests it's possible to use JaCoCo (https://github.com/jacoco).
+
+It's already properly configured in ITemplate's `pom.xml` and you can generate the report using a command like this:
+
+    mvn clean jacoco:prepare-agent test jacoco:report

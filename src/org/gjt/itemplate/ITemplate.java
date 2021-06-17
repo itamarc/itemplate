@@ -115,11 +115,11 @@ public class ITemplate {
 					}
 				} else if (open && c == openTkn.charAt(0)) {
 					if (tmpl.substring(i,i+openTkn.length()).compareTo(openTkn) == 0) {
-						throw new TokensDontMatchException("Two opening tokens without a closing one.");
+						throw new TokensDontMatchException("Two opening tokens without a closing one at position "+i+".");
 					}
 				} else if (!open && c == closeTkn.charAt(0)) {
 					if (tmpl.substring(i,i+closeTkn.length()).compareTo(closeTkn) == 0) {
-						throw new TokensDontMatchException("Closing token without an opening one.");
+						throw new TokensDontMatchException("Closing token without an opening one at position "+i+".");
 					}
 				} else {
 					str.append(c);

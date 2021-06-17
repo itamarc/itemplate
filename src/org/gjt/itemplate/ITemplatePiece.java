@@ -30,14 +30,14 @@ package org.gjt.itemplate;
  */
 public class ITemplatePiece {
 	private String text;
-	/** 1=Text, 2=Key, 3=Advanced
+	/** 1=Text, 2=Key
 	 */
 	private int type;
 	public ITemplatePiece (String text, int type) throws ParameterException {
 		this.text = text;
 		this.type = type;
-		if (type < 1 || type > 3) {
-			throw new ParameterException("Parameter 'type' must have values between 1 and 3.");
+		if (type < 1 || type > 2) {
+			throw new ParameterException("Parameter 'type' must have values between 1 and 2.");
 		}
 	}
 	public String getText() {
@@ -47,17 +47,13 @@ public class ITemplatePiece {
 		return type;
 	}
 	public String toString() {
-		String typestr = "";
-		if (type == 1) {
+		String typestr = "unknown";
+		if (type == ITemplate.TEXT) {
 			typestr="text";
-		} else if (type == 2) {
+		} else if (type == ITemplate.KEY) {
 			typestr="key";
-		} else if (type == 3) {
-			typestr="advanced";
-		} else {
-			typestr="unknown";
 		}
-		return "Type "+type+" ("+typestr+") - Text:\n"+text;
+		return "Type '"+typestr+"' - Text: \u00AB"+text+"\u00BB";
 	}
 }
 

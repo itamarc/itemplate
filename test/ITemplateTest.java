@@ -1,6 +1,9 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 
 import org.gjt.itemplate.EmptyTemplateException;
@@ -35,7 +38,7 @@ public class ITemplateTest {
 
         Exception exception = assertThrows(TokensDontMatchException.class, () ->
             new ITemplate(template,"string"));
-        assertEquals("Two opening tokens without a closing one.", exception.getMessage());
+        assertEquals("Two opening tokens without a closing one at position 20.", exception.getMessage());
     }
     @Test
     void tokensDontMatchExceptionClosingTest() {
@@ -43,7 +46,7 @@ public class ITemplateTest {
 
         Exception exception = assertThrows(TokensDontMatchException.class, () ->
             new ITemplate(template,"string"));
-        assertEquals("Closing token without an opening one.", exception.getMessage());
+        assertEquals("Closing token without an opening one at position 28.", exception.getMessage());
     }
     /**
      * For a key not found in the HashMap, it should be changed for an empty string.
@@ -90,6 +93,80 @@ public class ITemplateTest {
     // Just to increase test coverage
     void setTokensTest() {
         ITemplate.setTokens("{open", "}close");
-        ITemplate.setTokens("[#]", "#]");
+        ITemplate.setTokens("[#", "#]");
+    }
+
+    @Test
+    void templateFileTest() throws ParameterException, EmptyTemplateException, TokensDontMatchException, IOException {
+        String resourceName = "template.html";
+
+        ITemplate tmpl = new ITemplate(getResourceFile(resourceName).getAbsolutePath(), "path");
+        HashMap<String, String> h = new HashMap<String, String>();
+        h.put("pagetitle", "ITemplate");
+        h.put("liburl", "https://github.com/itamarc/itemplate/");
+        h.put("linktitle", "ITemplate at GitHub");
+        String result = tmpl.fill(h);
+        String expectedResult = readFile(getResourceFile("templatefilled.html"));
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void templateOnelinePathTest() throws ParameterException, EmptyTemplateException, TokensDontMatchException {
+        String resourceName = "oneline.txt";
+        ITemplate tmpl = new ITemplate(getResourceFile(resourceName).getAbsolutePath(), "path");
+        String expectedResult = "[First second third fourth fifth sixth seventh";
+        HashMap<String, String> h = new HashMap<String, String>();
+        h.put("test1", "second");
+        h.put("test2", "fourth");
+        h.put("test#3", "sixth");
+        h.put("test4", "seventh");
+        String result = tmpl.fill(h);
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void templateOnelineFileTest() throws ParameterException, EmptyTemplateException, TokensDontMatchException {
+        String resourceName = "oneline.txt";
+        File tmplFile = getResourceFile(resourceName);
+        ITemplate tmpl = new ITemplate(tmplFile);
+        String expectedResult = "[First second third fourth fifth sixth seventh";
+        HashMap<String, String> h = new HashMap<String, String>();
+        h.put("test1", "second");
+        h.put("test2", "fourth");
+        h.put("test#3", "sixth");
+        h.put("test4", "seventh");
+        String result = tmpl.fill(h);
+        assertEquals(expectedResult, result);
+    }
+
+    private File getResourceFile(String resourceName) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource(resourceName).getFile());
+        return file;
+    }
+
+    private String readFile(File file) throws IOException {
+        int c;
+        StringBuffer buf = new StringBuffer();
+        FileReader in = new FileReader(file);
+        while ((c = in.read()) != -1) {
+            buf.append((char) c);
+        }
+        in.close();
+        return buf.toString();
+    }
+
+    @Test
+    void fileNotFoundTest() {
+        assertThrows(EmptyTemplateException.class, () -> {
+            new ITemplate(new File("ThisFileIsNotSupposedToExist.txt"));
+        });
+    }
+
+    @Test
+    void filePathNotFoundTest() {
+        assertThrows(EmptyTemplateException.class, () -> {
+            new ITemplate("ThisFileIsNotSupposedToExist.txt", "path");
+        });
     }
 }
