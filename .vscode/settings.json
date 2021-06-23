@@ -4,5 +4,6 @@
         "test",
         "example"
     ],
-    "java.errors.incompleteClasspath.severity": "error"
+    "java.errors.incompleteClasspath.severity": "error",
+    "java.configuration.updateBuildConfiguration": "automatic"
 }
