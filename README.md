@@ -7,20 +7,22 @@ This  library  was created  by  Itamar  Carvalho  and  was inspired by Perl Text
 
 This project was once hosted in the Giant Java Tree site (http://www.gjt.org).
 
-For more information, see the README file in "doc" folder.
+For more information, see the [README](https://github.com/itamarc/itemplate/blob/master/doc/README) file in "doc" folder.
 
-## Maven
+## :gear: Maven
 
 This library is on Maven Central Repository (through Sonatype.org).
 To use this library in a Maven project, you can use this code in your `pom.xml`:
 
-    <dependency>
-        <groupId>io.github.itamarc</groupId>
-        <artifactId>itemplate</artifactId>
-        <version>1.1</version>
-    </dependency>
+```xml
+<dependency>
+    <groupId>io.github.itamarc</groupId>
+    <artifactId>itemplate</artifactId>
+    <version>1.2</version>
+</dependency>
+```
 
-## Unit Tests
+## :white_check_mark: Unit Tests
 
 To generate a report of code coverage of the unit tests it's possible to use JaCoCo (https://github.com/jacoco).
 
