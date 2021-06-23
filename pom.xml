@@ -5,7 +5,7 @@
  
     <groupId>io.github.itamarc</groupId>
     <artifactId>itemplate</artifactId>
-    <version>1.1</version>
+    <version>1.2-alfa</version>
     <packaging>jar</packaging>
  
     <name>${project.groupId}:${project.artifactId}</name>
@@ -51,7 +51,7 @@
         
         <!-- Plugin versions -->
         <maven.clean>3.1.0</maven.clean>
-        <!--maven.resources>3.1.0</maven.resources-->
+        <maven.resources>3.1.0</maven.resources>
         <maven.compiler>3.8.1</maven.compiler>
         <maven.surefire>3.0.0-M5</maven.surefire>
         <maven.jar>3.2.0</maven.jar>
@@ -59,10 +59,6 @@
     </properties>
 
     <dependencies>
-        <!-- Dependencies -->
-    
-    
-        <!-- Testing dependencies-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

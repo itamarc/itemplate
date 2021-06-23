@@ -111,6 +111,18 @@ public class ITemplateTest {
     }
 
     @Test
+    void templateMdFileTest() throws ParameterException, EmptyTemplateException, TokensDontMatchException, IOException {
+        String resourceName = "template.md";
+
+        ITemplate tmpl = new ITemplate(getResourceFile(resourceName).getAbsolutePath(), "path");
+        HashMap<String, String> h = new HashMap<String, String>();
+        h.put("onlykey", "This is a footer.");
+        String result = tmpl.fill(h);
+        String expectedResult = readFile(getResourceFile("templatefilled.md"));
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
     void templateOnelinePathTest() throws ParameterException, EmptyTemplateException, TokensDontMatchException {
         String resourceName = "oneline.txt";
         ITemplate tmpl = new ITemplate(getResourceFile(resourceName).getAbsolutePath(), "path");
