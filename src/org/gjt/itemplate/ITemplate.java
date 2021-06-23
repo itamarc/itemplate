@@ -113,13 +113,19 @@ public class ITemplate {
 					} else { // If fails to find the full token, just append the char
 						str.append(c);
 					}
+				// There was an open token already and we maybe found another
 				} else if (open && c == openTkn.charAt(0)) {
 					if (tmpl.substring(i,i+openTkn.length()).compareTo(openTkn) == 0) {
 						throw new TokensDontMatchException("Two opening tokens without a closing one at position "+i+".");
+					} else { // If fails to find the full token, just append the char
+						str.append(c);
 					}
+				// There was no open token yet and we maybe found a close token
 				} else if (!open && c == closeTkn.charAt(0)) {
 					if (tmpl.substring(i,i+closeTkn.length()).compareTo(closeTkn) == 0) {
 						throw new TokensDontMatchException("Closing token without an opening one at position "+i+".");
+					} else { // If fails to find the full token, just append the char
+						str.append(c);
 					}
 				} else {
 					str.append(c);
