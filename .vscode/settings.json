@@ -1,9 +1,0 @@
-{
-    "java.project.sourcePaths": [
-        "src",
-        "test",
-        "example"
-    ],
-    "java.errors.incompleteClasspath.severity": "error",
-    "java.configuration.updateBuildConfiguration": "automatic"
-}
