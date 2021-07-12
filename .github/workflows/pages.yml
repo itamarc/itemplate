@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    with:
-      ref: gh-pages
+      with:
+        ref: 'gh-pages'
     - uses: itamarc/action-itemplate-ghpages@v1test
       with:
         templates_folder: ':light:'
