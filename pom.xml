@@ -82,11 +82,11 @@
     <build>
         <sourceDirectory>${basedir}/src</sourceDirectory>
         <testSourceDirectory>${basedir}/test</testSourceDirectory>
-        <resources>
-            <resource>
+        <testResources>
+            <testResource>
                 <directory>test/resources</directory>
-            </resource>
-        </resources>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
