@@ -1,10 +1,18 @@
 name: Page generation from templates
 
 on:
+  # Trigger on page_build, as well as release, fork, push, watch and issues events
   page_build:
   release:
+  fork:
+  push:
+  watch:
+  issues:
     types:
-      - created
+      - opened
+      - closed
+      - edited
+      - deleted
   workflow_dispatch:
 jobs:
   deploy:
@@ -15,11 +23,13 @@ jobs:
         ref: 'gh-pages'
     - uses: itamarc/action-itemplate-ghpages@v1test
       with:
-        templates_folder: ':light:'
+        templates_folder: ':bluish:'
         pages_branch: 'gh-pages'
         pages_folder: 'docs'
         timezone: 'America/Sao_Paulo'
         publish_readme_md: 'true'
+        syntax_highlight_enable: 'true'
+        syntax_highlight_theme: 'coy'
         log_level: 'INFO'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
