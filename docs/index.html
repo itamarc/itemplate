@@ -7,7 +7,9 @@
         <title>itamarc/itemplate</title>
         <link rel="stylesheet" href="bluish.css">
         <script language="javascript" src="themes.js"></script>
-    </head>
+            <!-- Prism.js - Syntax highlighting -->
+        <link href="https://itamarc.github.io/itemplate/prism-coy.css" rel="stylesheet" />
+</head>
     <body onload="setSmalldivHeight();">
     
     <div class="header">
@@ -41,7 +43,7 @@
         <div class="container shadow">
             <h2>History</h2>
             
-            <p>Repository created at 2021-05-04T00:42:29Z. Last updated at 2021-09-10T21:45:00Z.</p>
+            <p>Repository created at 2021-05-04T00:42:29Z. Last updated at 2021-09-10T21:52:38Z.</p>
             
             <div class="svgIconsDiv">
             <span id="watchers">
@@ -84,10 +86,30 @@
         <div id="readme_inline" class="shadow">
             <div class="readme_title">README</div>
             <div class="readme_content">
-            
+            <h1>ITemplate Java</h1>
+<p><em>Fill in text templates with variable content</em></p>
+<p>(a.k.a. org.gjt.itemplate)</p>
+<p>This  library  was created  by  Itamar  Carvalho  and  was inspired by Perl Text::Template module (see http://www.cpan.org).</p>
+<p>This project was once hosted in the Giant Java Tree site (http://www.gjt.org).</p>
+<p>For more information, see the <a href="https://github.com/itamarc/itemplate/blob/master/doc/README">README</a> file in &quot;doc&quot; folder.</p>
+<h2><img src="https://github.githubassets.com/images/icons/emoji/unicode/2699.png?v7" alt="emoji objects:gear" height="20" width="20" align="absmiddle" /> Maven</h2>
+<p>This library is on Maven Central Repository (through Sonatype.org).
+To use this library in a Maven project, you can use this code in your <code>pom.xml</code>:</p>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;io.github.itamarc&lt;/groupId&gt;
+    &lt;artifactId&gt;itemplate&lt;/artifactId&gt;
+    &lt;version&gt;1.2&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h2><img src="https://github.githubassets.com/images/icons/emoji/unicode/2705.png?v7" alt="emoji symbols:white_check_mark" height="20" width="20" align="absmiddle" /> Unit Tests</h2>
+<p>To generate a report of code coverage of the unit tests it's possible to use JaCoCo (https://github.com/jacoco).</p>
+<p>It's already properly configured in ITemplate's <code>pom.xml</code> and you can generate the report using a command like this:</p>
+<pre><code>mvn clean jacoco:prepare-agent test jacoco:report
+</code></pre>
+
             </div>
         </div>
-        <script lang="javascript">readmePublished('true')</script>
+        <script lang="javascript">readmePublished('inline')</script>
     </div><!-- bigdiv -->
 
     <div id="smalldiv">
@@ -121,9 +143,10 @@
     </div><!-- smalldiv -->
 
     <div class="footer">
-        <p class="lastupd">Last updated: 2021-09-10 18:51:10 America/Sao_Paulo</p>
+        <p class="lastupd">Last updated: 2021-09-10 18:53:35 America/Sao_Paulo</p>
         <p class="actionmkt">Created automatically using <a href="https://itamarc.github.io/action-itemplate-ghpages" target="_blank">itamarc/action-itemplate-ghpages</a>.
             Theme: 'bluish'.</p>
     </div>
-    </body>
+    <script src="https://itamarc.github.io/itemplate/prism.js"></script>
+</body>
 </html>
