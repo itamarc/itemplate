@@ -15,7 +15,23 @@ on:
       - deleted
   workflow_dispatch:
 jobs:
-  deploy:
+  update-docs-on-gh-pages-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Adjust the depth as needed according to the files you want to copy
+          fetch-depth: 0
+      - name: Copy To Branches Action
+        uses: planetoftheweb/copy-to-branches@v1.1
+        env:
+          # The branch where the files will be copied from
+          key: 'master'
+          # The destination branch
+          branches: 'gh-pages'
+          # The files that will be copied with the relative path
+          files: 'README.md doc'
+  deploy-pages:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
